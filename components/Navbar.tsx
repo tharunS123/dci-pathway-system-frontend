@@ -24,7 +24,7 @@ async function Navbar() {
             <Button variant="ghost" className="flex items-center gap-2" asChild>
               <Link href="/plants">
                 <Sprout className="w-4 h-4" />
-                <span className="hidden lg:inline">Plants</span>
+                <span className="hidden lg:inline">Mindset Analysis</span>
               </Link>
             </Button>
             <Button variant="ghost" className="flex items-center gap-2" asChild>
