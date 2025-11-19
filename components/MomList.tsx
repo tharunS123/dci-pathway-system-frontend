@@ -29,6 +29,46 @@ const MomList = ({
       title: "Sahara_Polk",
       link: "Sahara_Polk",
     },
+    {
+      title: "Ashley_McCracklin",
+      link: "Ashley_McCracklin",
+    },
+    {
+      title: "Brinika_Wells",
+      link: "Brinika_Wells",
+    },
+    {
+      title: "Candice_Talley",
+      link: "Candice_Talley",
+    },
+    {
+      title: "Jasmyne_West",
+      link: "Jasmyne_West",
+    },
+    {
+      title: "Kendra_Scott",
+      link: "Kendra_Scott",
+    },
+    {
+      title: "Kimmea_White",
+      link: "Kimmea_White",
+    },
+    {
+      title: "Layla_Purdy",
+      link: "Layla_Purdy",
+    },
+    {
+      title: "Natasha_McClung",
+      link: "Natasha_McClung",
+    },
+    {
+      title: "KTeasia_Allen",
+      link: "Teasia_Allen",
+    },
+    {
+      title: "Zakiya_Hardley",
+      link: "KZakiya_Hardley",
+    }
   ],
 }: List2Props) => {
   return (

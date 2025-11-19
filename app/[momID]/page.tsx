@@ -1,27 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
+import React from "react";
+import { MomSentimentChart } from "@/components/MomSentimentChart";
+import type { MomAnalysis } from "@/types/mom-analysis";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card"
 
 const FLASK_URL = process.env.NEXT_PUBLIC_FLASK_URL!;
-
-type TrendPoint = [string, number];
-
-interface MomAnalysis {
-  mom_name: string;
-  rows: number;
-  start: string | null;
-  end: string | null;
-  pos_total: number;
-  neg_total: number;
-  net_total: number;
-  pos_rate: number;
-  trend_dir: string;
-  best_week_label: string | null;
-  best_week_value: number | null;
-  worst_week_label: string | null;
-  worst_week_value: number | null;
-  top_themes: [string, number][];
-  trend_points: TrendPoint[];
-}
 
 async function fetchMomAnalysis(momId: string): Promise<MomAnalysis | null> {
     console.log("fetch(momID): ", momId)
@@ -35,93 +25,140 @@ async function fetchMomAnalysis(momId: string): Promise<MomAnalysis | null> {
     return res.json();
   }
 
-async function MomPage({params}: {params: Promise<{ momID: string }>}) {
+async function MomPage({ params }: { params: Promise<{ momID: string }>}) {
   const resolvedParams = await params;
-  console.log("MomPage(params): ", resolvedParams);
+  console.log("MomPage(params) momID: ", resolvedParams);
   const { momID } = resolvedParams;
-  console.log("MomPage(params) momID: ", momID);
   const data = await fetchMomAnalysis(momID);
-
   if (!data) {
     notFound();
   }
-
   return (
-    // <section className="py-3">
-    //   <div className="container max-w-7xl">
-    //     <div className="relative grid-cols-3 gap-20 lg:grid">
-    //       <div className="lg:col-span-2">
-    //         <div>
-    //           <Badge variant="outline">Analyze</Badge>
-    //           <h1 className="mt-3 text-3xl font-extrabold">
-    //             Sentiment Analysis
-    //           </h1>
-    //           <p className="text-muted-foreground mt-2 text-lg">
-    //           To gain a clearer understanding of mindset changes recorded in the weekly notes. 
-    //           To identify meaningful trends that were difficult to see in text form. 
-    //           To help DCI evaluate how the program is progressing over time.​
-    //           </p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </section>
-    <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">
-        Analysis for <span className="text-blue-600">{data.mom_name}</span>
-      </h1>
+    <div className="mt-8 max-w-6xl mx-auto px-4 space-y-8">
+      {/* Header / Hero */}
+      <header className="space-y-3">
+        <Badge variant="outline" className="rounded-full px-3 py-1 text-xs">
+          Sentiment Analysis
+        </Badge>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+          {data.mom_name}
+        </h1>
+        <p className="text-muted-foreground max-w-2xl text-sm md:text-base">
+          To identify meaningful trends in mentor notes that are difficult to
+          see when reading row by row.
+        </p>
+      </header>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="border rounded-xl p-4">
-          <h2 className="font-semibold mb-1">Overall</h2>
-          <p>Rows: {data.rows}</p>
-          <p>
-            Date range: {data.start} → {data.end}
-          </p>
-          <p>Trend: {data.trend_dir}</p>
-        </div>
+      {/* Overview cards */}
+      <section
+        id="overview"
+        aria-label="Sentiment overview"
+        className="grid gap-4 md:grid-cols-3"
+      >
+        {/* Overall */}
+        <Card className="border-muted/60 shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">Overall</CardTitle>
+            <CardDescription className="text-xs">
+              Data coverage and high-level trend.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-1 text-sm">
+            <p>
+              <span className="text-muted-foreground"># Rows: </span>
+              <span className="font-semibold">{data.rows}</span>
+            </p>
+            <p>
+              <span className="text-muted-foreground">Date range: </span>
+              <span className="font-medium">
+                {data.start} – {data.end}
+              </span>
+            </p>
+            <p>
+              <span className="text-muted-foreground">Trend: </span>
+              <span className="font-semibold capitalize">
+                {data.trend_dir}
+              </span>
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className="border rounded-xl p-4">
-          <h2 className="font-semibold mb-1">Sentiment</h2>
-          <p>Pos total: {data.pos_total}</p>
-          <p>Neg total: {data.neg_total}</p>
-          <p>Net total: {data.net_total}</p>
-          <p>Pos rate: {(data.pos_rate * 100).toFixed(1)}%</p>
-        </div>
+        {/* Sentiment totals */}
+        <Card className="border-muted/60 shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">Sentiment</CardTitle>
+            <CardDescription className="text-xs">
+              Count of positive vs. negative check-ins.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 gap-y-1 text-sm">
+            <p>
+              <span className="text-muted-foreground">Pos total</span>
+              <br />
+              <span className="text-lg font-semibold">{data.pos_total}</span>
+            </p>
+            <p>
+              <span className="text-muted-foreground">Neg total</span>
+              <br />
+              <span className="text-lg font-semibold">{data.neg_total}</span>
+            </p>
+            <p>
+              <span className="text-muted-foreground">Net total</span>
+              <br />
+              <span className="text-lg font-semibold">{data.net_total}</span>
+            </p>
+            <p>
+              <span className="text-muted-foreground">Pos rate</span>
+              <br />
+              <span className="text-lg font-semibold">
+                {(data.pos_rate * 100).toFixed(1)}%
+              </span>
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className="border rounded-xl p-4">
-          <h2 className="font-semibold mb-1">Best / Worst Week</h2>
-          <p>
-            Best: {data.best_week_label} ({data.best_week_value?.toFixed(2)})
-          </p>
-          <p>
-            Worst: {data.worst_week_label} ({data.worst_week_value?.toFixed(2)})
-          </p>
-        </div>
+        {/* Best / worst week */}
+        <Card className="border-muted/60 shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold">
+              Best / Worst Week
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Weeks with the strongest positive and negative averages.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            <div>
+              <p className="text-muted-foreground text-xs uppercase tracking-wide">
+                Best week
+              </p>
+              <p className="font-medium">
+                {data.best_week_label}{" "}
+                <span className="text-muted-foreground">
+                  ({data.best_week_value?.toFixed(2)})
+                </span>
+              </p>
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs uppercase tracking-wide">
+                Worst week
+              </p>
+              <p className="font-medium">
+                {data.worst_week_label}{" "}
+                <span className="text-muted-foreground">
+                  ({data.worst_week_value?.toFixed(2)})
+                </span>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
-      <section className="border rounded-xl p-4">
-        <h2 className="font-semibold mb-3">Trend Points</h2>
-        <ul className="space-y-1 text-sm font-mono">
-          {data.trend_points.map(([week, value]) => (
-            <li key={week}>
-              {week}: {value.toFixed(3)}
-            </li>
-          ))}
-        </ul>
+      {/* Trend chart */}
+      <section id="trend" aria-label="Sentiment trend over time">
+        <MomSentimentChart points={data.trend_points} />
       </section>
-
-      <section className="border rounded-xl p-4">
-        <h2 className="font-semibold mb-3">Top Themes</h2>
-        <ul className="space-y-1">
-          {data.top_themes.map(([theme, count]) => (
-            <li key={theme}>
-              <span className="font-medium capitalize">{theme}</span>: {count}
-            </li>
-          ))}
-        </ul>
-      </section>
-    </main>
+    </div>
   );
 }
 
