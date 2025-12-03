@@ -23,7 +23,7 @@ interface List2Props {
 }
 
 const MomList = ({
-  heading = "Cohort Moms",
+  heading = "Cohort 2 Moms",
   items = [
     {
       title: "Sahara_Polk",
@@ -62,17 +62,21 @@ const MomList = ({
       link: "Natasha_McClung",
     },
     {
-      title: "KTeasia_Allen",
+      title: "Teasia_Allen",
       link: "Teasia_Allen",
     },
     {
       title: "Zakiya_Hardley",
-      link: "KZakiya_Hardley",
+      link: "Zakiya_Hardley",
+    },
+    {
+      title: "Alexis_Thomas",
+      link: "Alexis_Thomas"
     }
   ],
 }: List2Props) => {
   return (
-    <section className="py-2">
+    <section className="">
       <div className="container px-0 md:px-8">
         <h1 className="mb-10 px-4 text-3xl font-semibold md:mb-14 md:text-4xl">
           {heading}

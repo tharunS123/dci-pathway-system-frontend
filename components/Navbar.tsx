@@ -82,7 +82,7 @@ async function Navbar() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <ModeToggle />
+            {/* <ModeToggle /> */}
             {user ? (
               <>
                 <Button
