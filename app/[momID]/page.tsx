@@ -10,6 +10,8 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card"
+import { stackServerApp } from "@/stack/server";
+import { SignUp } from "@stackframe/stack";
 
 const FLASK_URL = process.env.NEXT_PUBLIC_FLASK_URL!;
 
@@ -33,8 +35,11 @@ async function MomPage({ params }: { params: Promise<{ momID: string }>}) {
   if (!data) {
     notFound();
   }
+  const user = await stackServerApp.getUser();
   return (
-    <div className="mt-8 max-w-6xl mx-auto px-4 space-y-8">
+    <>
+    {user ? (
+      <div className="mt-8 max-w-6xl mx-auto px-4 space-y-8">
       {/* Header / Hero */}
       <header className="space-y-3">
         <Badge variant="outline" className="rounded-full px-3 py-1 text-xs">
@@ -159,6 +164,12 @@ async function MomPage({ params }: { params: Promise<{ momID: string }>}) {
         <MomSentimentChart points={data.trend_points} />
       </section>
     </div>
+    ) : (
+      <div className="flex justify-center mt-20 items-center">
+          <SignUp />
+        </div>
+    )}
+    </>
   );
 }
 

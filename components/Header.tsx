@@ -25,7 +25,7 @@ async function Header() {
           </p>
           <div className="mt-12 flex items-center gap-4">
             <Button size="lg" className="rounded-full text-base">
-                <Link href="/analysis" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2">
                 Explore Our Analysis <ArrowUpRight className="!h-5 !w-5" />
                 </Link>
             </Button>
