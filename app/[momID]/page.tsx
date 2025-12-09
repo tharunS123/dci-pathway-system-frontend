@@ -35,10 +35,10 @@ async function MomPage({ params }: { params: Promise<{ momID: string }>}) {
   if (!data) {
     notFound();
   }
-  const user = await stackServerApp.getUser();
+  // const user = await stackServerApp.getUser();
   return (
-    <>
-    {user ? (
+    // <>
+    // {user ? (
       <div className="mt-8 max-w-6xl mx-auto px-4 space-y-8">
       {/* Header / Hero */}
       <header className="space-y-3">
@@ -164,12 +164,12 @@ async function MomPage({ params }: { params: Promise<{ momID: string }>}) {
         <MomSentimentChart points={data.trend_points} />
       </section>
     </div>
-    ) : (
-      <div className="flex justify-center mt-20 items-center">
-          <SignUp />
-        </div>
-    )}
-    </>
+    // ) : (
+    //   <div className="flex justify-center mt-20 items-center">
+    //       <SignUp />
+    //     </div>
+    // )}
+    // </>
   );
 }
 

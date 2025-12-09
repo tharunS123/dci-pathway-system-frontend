@@ -72,8 +72,7 @@ export function MomSentimentChart({
     )
   }
 
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("sentiment")
+
 
   const latestPoint = chartData[chartData.length - 1]
   const latestSentiment = latestPoint.sentiment
